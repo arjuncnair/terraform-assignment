@@ -4,7 +4,6 @@ resource "aws_launch_configuration" "GigSky_Launch_Config" {
 	instance_type = "t2.micro"
 	key_name = "${aws_key_pair.myKey.key_name}"
 	security_groups = ["${aws_security_group.GigSky_SG.id}"]
-	user_data = "${file("Base.sh")}"
 	lifecycle {
 		create_before_destroy = true
 	}
