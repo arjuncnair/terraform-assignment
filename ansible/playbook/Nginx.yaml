@@ -1,0 +1,19 @@
+---
+ - hosts: all
+   become: true
+   tasks:
+     - name: Creating Nginx root direcotry
+       file: path=/var/www/html/ state=directory mode=0777 recurse=yes
+
+     - name: Creating Index File 
+       copy:
+          content: "<h1>Connected to: {{ inventory_hostname }}</h1>"
+          dest: /var/www/html/index.html
+          mode: 0777
+     - name: Pulling Nginx Docker Container
+       docker_image: name=nginx tag=latest pull=true
+
+     - name: Start Nginx Container
+       docker_container: name=Nginx-WS image=nginx:latest network_mode=host working_dir=/var/www/html/ volumes=/var/www/html/:/usr/share/nginx/html state=started
+
+
